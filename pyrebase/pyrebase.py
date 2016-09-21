@@ -14,8 +14,32 @@ import threading
 import socket
 from oauth2client.service_account import ServiceAccountCredentials
 from gcloud import storage
-from requests.packages.urllib3.contrib.appengine import is_appengine_sandbox
 from requests_toolbelt.adapters import appengine
+
+import os
+def is_appengine():
+	return (is_local_appengine() or
+         is_prod_appengine() or
+         is_prod_appengine_mvms())
+
+
+def is_appengine_sandbox():
+	return is_appengine() and not is_prod_appengine_mvms()
+
+
+def is_local_appengine():
+	return ('APPENGINE_RUNTIME' in os.environ and
+         'Development/' in os.environ['SERVER_SOFTWARE'])
+
+
+def is_prod_appengine():
+	return ('APPENGINE_RUNTIME' in os.environ and
+         'Google App Engine/' in os.environ['SERVER_SOFTWARE'] and
+         not is_prod_appengine_mvms())
+
+
+def is_prod_appengine_mvms():
+	return os.environ.get('GAE_VM', False) == 'true'
 
 import jwt
 import Crypto.PublicKey.RSA as RSA
