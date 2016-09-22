@@ -12,7 +12,7 @@ pip install pyrebase
 
 ### Python Version
 
-Originally Pyrebase was written for python 3 in my fork it's working on python 2.
+Originally Pyrebase was written for python 3 however in my fork it's working on python 2.
 
 ### Add Pyrebase to your application
 
